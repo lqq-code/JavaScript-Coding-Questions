@@ -6,7 +6,8 @@ As a Front-End developer, JavaScript is the core skill of everything
 | No. | Questions                                                                                                                                                         |
 | --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 1   | [ implement curry()](#implement-curry)                                         |
-| 2   | [ implement curry() with placeholder support](#implement-curry-with-placeholder-support)                                         |
+| 2   | [ implement curry() with placeholder support](#implement-curry-with-placeholder-support)                                                                                             |
+| 3   | [ implement Array.prototype.flat()](#implement-arrayprototypeflat)                                                                                                                                   |
 
 1. ### implement curry()
       Currying is a useful technique used in JavaScript applications.
@@ -77,5 +78,43 @@ As a Front-End developer, JavaScript is the core skill of everything
 
     curry.placeholder = Symbol()
 
+      ```
+      
+3. ### implement Array.prototype.flat()
+      There is already Array.prototype.flat() in JavaScript (ES2019), which reduces the nesting of Array.
+
+      Could you manage to implement your own one?
+
+      Here is an example to illustrate:
+
+      ```javascript
+     const arr = [1, [2], [3, [4]]];
+
+     flat(arr)
+     // [1, 2, 3, [4]]
+
+     flat(arr, 1)
+     // [1, 2, 3, [4]]
+ 
+    flat(arr, 2)
+     // [1, 2, 3, 4]
+      ```
+      **solution:**
+      ```javascript
+      function flat(arr, depth = 1) {
+        const result = []
+        const stack = [...arr.map(item => ([item, depth]))]
+        
+        while (stack.length > 0) {
+          const [top, depth] = stack.pop()
+          if (Array.isArray(top) && depth > 0) {
+            stack.push(...top.map(item => ([item, depth - 1])))
+          } else {
+            result.push(top)
+          }
+        }
+        
+        return result.reverse()
+      }
       ```
       
