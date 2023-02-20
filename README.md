@@ -101,20 +101,32 @@ As a Front-End developer, JavaScript is the core skill of everything
       ```
       **solution:**
       ```javascript
-      function flat(arr, depth = 1) {
-        const result = []
-        const stack = [...arr.map(item => ([item, depth]))]
+    function throttle(func, wait) {
+        let timer = null
+        let stashed = null
         
-        while (stack.length > 0) {
-          const [top, depth] = stack.pop()
-          if (Array.isArray(top) && depth > 0) {
-            stack.push(...top.map(item => ([item, depth - 1])))
-          } else {
-            result.push(top)
+        const startCooling=()=>{
+          timer = window.setTimeout(check, wait)
+        }
+
+        const check=()=>{
+          timer = null
+          if(stashed != null){
+            func.apply(stashed[0], stashed[1])
+            stashed = null
+            startCooling()
+          }
+        }
+
+        return funcion(...args){
+          if(timer !== null){
+            stashed = [this, args]
+          }else{
+            func.apply(this, args)
+            startCooling()
           }
         }
         
-        return result.reverse()
       }
       ```
       
