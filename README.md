@@ -9,6 +9,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 2   | [ implement curry() with placeholder support](#implement-curry-with-placeholder-support)                                                                                             |
 | 3   | [ implement Array.prototype.flat()](#implement-arrayprototypeflat)                                                                                                                                   |
 | 4   | [ implement basic throttle()](#implement-basic-throttle)                                                                                                                                   |
+| 5   | [ implement throttle() with leading and trailing option](#implement-throttle-with-leading-and-trailing-option)                                                                                                                                   |
 
 1. ### implement curry()
       Currying is a useful technique used in JavaScript applications.
@@ -197,4 +198,99 @@ As a Front-End developer, JavaScript is the core skill of everything
       }
 
       ```
-      
+5. ### implement throttle() with leading and trailing option
+    This is a follow up on 4. implement basic throttle(), please refer to it for detailed explanation.
+
+    In this problem, you are asked to implement a enhanced throttle() which accepts third parameter, option: {leading: boolean, trailing: boolean}
+
+    leading: whether to invoke right away
+    trailing: whether to invoke after the delay.
+    4. implement basic throttle() is the default case with {leading: true, trailing: true}.
+
+    Explanation:
+
+    for the previous example of throttling by 3 dashes
+
+    ─A─B─C─ ─D─ ─ ─ ─ ─ ─ E─ ─F─G
+
+    with {leading: true, trailing: true}, we get as below
+
+    ─A─ ─ ─C─ ─ ─D ─ ─ ─ ─ E─ ─ ─G
+
+    with {leading: false, trailing: true}, A and E are swallowed.
+
+    ─ ─ ─ ─C─ ─ ─D─ ─ ─ ─ ─ ─ ─G
+
+    with {leading: true, trailing: false}, only A D E are kept
+
+    ─A─ ─ ─ ─D─ ─ ─ ─ ─ ─ E
+
+    with {leading: false, trailing: false}, of course, nothing happens.
+
+    Something like below will be used to do the test.
+
+
+      ```javascript
+      let currentTime = 0
+
+      const run = (input) => {
+        currentTime = 0
+        const calls = []
+
+        const func = (arg) => {
+          calls.push(`${arg}@${currentTime}`)
+        }
+
+        const throttled = throttle(func, 3)
+        input.forEach((call) => {
+          const [arg, time] = call.split('@')
+          setTimeout(() => throttled(arg), time)
+        })
+        return calls
+      }
+
+      expect(run(['A@0', 'B@2', 'C@3'])).toEqual(['A@0', 'C@3'])
+      ```
+      **solution:**
+      ```javascript
+     function throttle(func, wait, option = {leading: true, trailing: true}) {
+
+        let timer = null
+        let stashed = null
+        
+        const startCooling = () => {
+          timer = window.setTimeout(check, wait)
+        }
+        
+        const check = () => {
+          timer = null
+          if (stashed !== null) {
+            func.apply(stashed[0], stashed[1])
+            stashed = null
+            startCooling()
+          }
+        }
+        
+        return function(...args) {
+          if (timer !== null) {
+            // cooling, stash it
+            if (option.trailing) {
+              stashed = [this, args]
+            }
+            return
+          } 
+          
+          if (option.leading) {
+            func.apply(this, args)
+            startCooling()
+            return
+          } 
+
+          if (option.trailing) {
+            stashed = [this, args]
+            startCooling()
+          }  
+        }
+    }
+
+      ```
