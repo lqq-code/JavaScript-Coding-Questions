@@ -12,6 +12,8 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 5   | [ implement throttle() with leading and trailing option](#implement-throttle-with-leading-and-trailing-option)                                                                                                        |
 | 6   | [ implement basic debounce()](#implement-basic-debounce)                                                                                                        |
 | 7   | [ implement debounce() with leading and trailing option](#implement-debounce-with-leading-and-trailing-option)                                                                                                        |
+| 8   | [ can you shuffle() an array](#can-you-shuffle-an-array)                                                                                                        | 
+| 9   | [ decode message](#decode-message)                                                                                                        | 
 1. ### implement curry()
       Currying is a useful technique used in JavaScript applications.
 
@@ -436,4 +438,79 @@ As a Front-End developer, JavaScript is the core skill of everything
         }
       }
       ```
-     
+8. ###  can you shuffle() an array
+    How would you implement a shuffle() ?
+
+    When passed with an array, it should modify the array inline to generate a randomly picked permutation at the same probability.
+
+    for an array like this:
+
+      ```javascript
+      const arr = [1, 2, 3, 4]
+      ```
+      there would be possibly 4! = 24 permutations
+      ```javascript
+      [1, 2, 3, 4]
+      [1, 2, 4, 3]
+      [1, 3, 2, 4]
+      [1, 3, 4, 2]
+      [1, 4, 2, 3]
+      [1, 4, 3, 2]
+      [2, 1, 3, 4]
+      [2, 1, 4, 3]
+      [2, 3, 1, 4]
+      [2, 3, 4, 1]
+      [2, 4, 1, 3]
+      [2, 4, 3, 1]
+      [3, 1, 2, 4]
+      [3, 1, 4, 2]
+      [3, 2, 1, 4]
+      [3, 2, 4, 1]
+      [3, 4, 1, 2]
+      [3, 4, 2, 1]
+      [4, 1, 2, 3]
+      [4, 1, 3, 2]
+      [4, 2, 1, 3]
+      [4, 2, 3, 1]
+      [4, 3, 1, 2]
+      [4, 3, 2, 1]
+      ```
+      your shuffle() should transform the array in one of the above array, at the same 1/24 probability.
+
+      **solution:**
+      ```javascript
+      for (let i = 0; i < arr.length; i++) {
+        const j = i + Math.floor(Math.random() * (arr.length - i))
+        ;[arr[i], arr[j]] = [arr[j], arr[i]]
+      }
+      ```
+9. ### decode message
+      Your are given a 2-D array of characters. There is a hidden message in it.
+
+      ```javascript
+      I B C A L K A
+      D R F C A E A
+      G H O E L A D   
+      ```
+      The way to collect the message is as follows
+
+      - start at top left
+      - move diagonally down right
+      - when cannot move any more, try to switch to diagonally up right
+      - when cannot move any more, try switch to diagonally down right, repeat 3
+      -  stop when cannot neither move down right or up right. the character on the path is the message
+      
+      for the input above, IROCLED should be returned. 
+      **solution:**
+      ```javascript
+      function decode(message) {
+        let i = 0, j = 0;
+        let ans = '';
+        while (message[i] && message[i][j]) {
+          ans += message[i][j];
+          message[i + 1] ? i++ : i--
+          j++;
+        }
+        return ans;
+      }         
+      ```
