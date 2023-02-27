@@ -501,6 +501,7 @@ As a Front-End developer, JavaScript is the core skill of everything
       -  stop when cannot neither move down right or up right. the character on the path is the message
       
       for the input above, IROCLED should be returned. 
+      
       **solution:**
       ```javascript
       function decode(message) {
