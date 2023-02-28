@@ -15,6 +15,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 8   | [ can you shuffle() an array](#can-you-shuffle-an-array)                                                                                                        | 
 | 9   | [ decode message](#decode-message)                                                                                                        | 
 | 10   | [ first bad version](#first-bad-version)                                                                                                        | 
+| 11   | [ what is Composition create a pipe()](#what-is-composition-create-a-pipe)                                                                                                        | 
 1. ### implement curry()
       Currying is a useful technique used in JavaScript applications.
 
@@ -485,7 +486,7 @@ As a Front-End developer, JavaScript is the core skill of everything
         ;[arr[i], arr[j]] = [arr[j], arr[i]]
       }
       ```
-9. ### decode message
+9. ###  decode message
       Your are given a 2-D array of characters. There is a hidden message in it.
 
       ```javascript
@@ -533,6 +534,49 @@ As a Front-End developer, JavaScript is the core skill of everything
 
         return (version) => {
           return isBad(version)? check(version) : -1
+        }
+      }
+      ```
+11. ###  what is Composition create a pipe()
+    Here you are asked to create a pipe() function, which chains multiple functions together to create a new function.
+
+    Suppose we have some simple functions like this
+       ```javascript
+      const times = (y) =>  (x) => x * y
+      const plus = (y) => (x) => x + y
+      const subtract = (y) =>  (x) => x - y
+      const divide = (y) => (x) => x / y
+      ```
+    Your pipe() would be used to generate new functions
+       ```javascript
+      pipe([
+        times(2),
+        times(3)
+      ])  
+      // x * 2 * 3
+
+      pipe([
+        times(2),
+        plus(3),
+        times(4)
+      ]) 
+      // (x * 2 + 3) * 4
+
+      pipe([
+        times(2),
+        subtract(3),
+        divide(4)
+      ]) 
+      // (x * 2 - 3) / 4
+      ```
+      notes：
+
+      to make things simple, functions passed to pipe() will all accept 1 argument
+      **solution:**
+      ```javascript
+      function pipe(funcs) {
+        return function(arg){
+          return funcs.reduce((prev, curr) => curr.call(this, prev),arg)
         }
       }
       ```
