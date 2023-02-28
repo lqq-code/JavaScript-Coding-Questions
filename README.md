@@ -14,6 +14,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 7   | [ implement debounce() with leading and trailing option](#implement-debounce-with-leading-and-trailing-option)                                                                                                        |
 | 8   | [ can you shuffle() an array](#can-you-shuffle-an-array)                                                                                                        | 
 | 9   | [ decode message](#decode-message)                                                                                                        | 
+| 10   | [ first bad version](#first-bad-version)                                                                                                        | 
 1. ### implement curry()
       Currying is a useful technique used in JavaScript applications.
 
@@ -501,7 +502,6 @@ As a Front-End developer, JavaScript is the core skill of everything
       -  stop when cannot neither move down right or up right. the character on the path is the message
       
       for the input above, IROCLED should be returned. 
-      
       **solution:**
       ```javascript
       function decode(message) {
@@ -514,4 +514,25 @@ As a Front-End developer, JavaScript is the core skill of everything
         }
         return ans;
       }         
+      ```
+10. ### first bad version
+    Say you have multiple versions of a program, write a program that will find and return the first bad revision given a isBad(version) function.
+
+    Versions after first bad version are supposed to be all bad versions.
+
+    notes：
+
+      - Inputs are all non-negative integers
+
+      - if none found, return -1
+
+      **solution:**
+      ```javascript
+      function firstBadVersion(isBad) {
+        const check = (v) => isBad(v)? check(v-1): v+1
+
+        return (version) => {
+          return isBad(version)? check(version) : -1
+        }
+      }
       ```
