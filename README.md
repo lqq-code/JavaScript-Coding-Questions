@@ -17,6 +17,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 10   | [ first bad version](#first-bad-version)                                                                                                        | 
 | 11   | [ what is Composition create a pipe()](#what-is-composition-create-a-pipe)                                                                                                        | 
 | 12   | [ implement Immutability helper](#implement-immutability-helper)                                                                                                        | 
+| 13   | [ Implement a Queue by using Stack](#implement-a-queue-by-using-stack)                                                                                                        | 
 1. ### implement curry()
       Currying is a useful technique used in JavaScript applications.
 
@@ -649,6 +650,74 @@ As a Front-End developer, JavaScript is the core skill of everything
                 }
               }
           }
+        }
+      }
+      ```
+13. ###  Implement a Queue by using Stack
+    In JavaScript, we could use array to work as both a Stack or a queue.
+       ```javascript
+      const arr = [1, 2, 3, 4]
+
+      arr.push(5) // now array is [1, 2, 3, 4, 5]
+      arr.pop() // 5, now the array is [1, 2, 3, 4]
+      ```
+      Above code is a Stack, while below is a Queue
+       ```javascript
+      const arr = [1, 2, 3, 4]
+
+      arr.push(5) // now the array is [1, 2, 3, 4, 5]
+      arr.shift() // 1, now the array is [2, 3, 4, 5]
+      ```
+      now suppose you have a stack, which has only follow interface:
+      ```javascript
+      class Stack {
+        push(element) { /* add element to stack */ }
+        peek() { /* get the top element */ }
+        pop() { /* remove the top element */}
+        size() { /* count of elements */}
+      }
+      ```
+      Could you implement a Queue by using only above Stack? A Queue must have following interface
+      ```javascript
+      class Queue {
+        enqueue(element) { /* add element to queue, similar to Array.prototype.push */ }
+        peek() { /* get the head element*/ }
+        dequeue() { /* remove the head element, similar to Array.prototype.pop */ }
+        size() { /* count of elements */ }
+      }
+      ```
+      **solution:**
+      ```javascript
+      class Queue {
+        constructor() {
+          this.stack1 = new Stack();
+          this.stack2 = new Stack();
+        }
+        enqueue(element) { 
+          // always add it to the bottom of the stack,
+          // so that first in element always stays on the top of the stack
+          
+          // transfer all elements from stack1 to stack2 as you want to add the new element to the bottom of stack1
+          for(let i=0; i<this.stack1.size(); i++){
+            this.stack2.push(this.stack1.pop());
+          }
+          
+          // now add the element to stack1
+          this.stack1.push(element);
+          
+          // transfer back
+          for(let i=0; i<this.stack2.size(); i++){
+            this.stack1.push(this.stack2.pop());
+          }
+        }
+        peek() { 
+          return this.stack1.peek();
+        }
+        size() { 
+          return this.stack1.size();
+        }
+        dequeue() {
+          return this.stack1.pop();
         }
       }
       ```
