@@ -16,6 +16,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 9   | [ decode message](#decode-message)                                                                                                        | 
 | 10   | [ first bad version](#first-bad-version)                                                                                                        | 
 | 11   | [ what is Composition create a pipe()](#what-is-composition-create-a-pipe)                                                                                                        | 
+| 12   | [ implement Immutability helper](#implement-immutability-helper)                                                                                                        | 
 1. ### implement curry()
       Currying is a useful technique used in JavaScript applications.
 
@@ -579,6 +580,75 @@ As a Front-End developer, JavaScript is the core skill of everything
       function pipe(funcs) {
         return function(arg){
           return funcs.reduce((prev, curr) => curr.call(this, prev),arg)
+        }
+      }
+      ```
+12. ###  implement Immutability helper
+    If you use React, you would meet the scenario to copy the state for a slight change.
+
+    For example, for following state
+       ```javascript
+      const state = {
+        a: {
+          b: {
+            c: 1
+          }
+        },
+        d: 2
+      }
+      ```
+      if we are to modify d to a new state, we could use _.cloneDeep, but it is not efficient because state.a is cloned while we don't need to change that.
+
+      A better way is to do shallow copy like this
+       ```javascript
+      const newState = {
+        ...state,
+        d: 3
+      }
+      ```
+      now is the problem, if we want to modify c, we would have to do something like
+      ```javascript
+      const newState = {
+        ...state,
+        a: {
+          ...state.a,
+          b: {
+            ...state.b,
+            c: 2
+          }
+        }
+      }
+      ```
+      We can see that for simple data structure it would be enough to use spread operator, but for complex data structures, it is verbose.
+
+      **solution:**
+      ```javascript
+      function update(data, command) {
+        for (const [key, value] of Object.entries(command)) {
+          switch (key) {
+            case '$push':
+              return [...data, ...value];
+            case '$set':
+              return value;
+            case '$merge':
+              if (!(data instanceof Object)) {
+                throw Error("bad merge");
+              }
+              return {...data, ...value};
+            case '$apply':
+              return value(data);
+            default:
+              if (data instanceof Array) {
+                const res = [...data];
+                res[key] = update(data[key], value);
+                return res;
+              } else {
+                return {
+                  ...data,
+                  [key]: update(data[key], value)
+                }
+              }
+          }
         }
       }
       ```
