@@ -760,28 +760,17 @@ As a Front-End developer, JavaScript is the core skill of everything
      
       **solution:**
       ```javascript
-      function memo(func, resolver) {
-        // Map<key, Map<this, result>>
-        const cache = new Map()
-        
-        return function(...args) {
-          const key = resolver ? resolver(...args) : args.join('_')
-          // shall we check the `this` keyword?
-          const cachedResults = cache.get(key)
-          
-          if (cachedResults?.has(this)) {
-            return cachedResults.get(this)
+      function memo(func, resolver ) {
+          const cache = new Map();
+          return function(...args) {
+            const cacheKey = resolver?resolver(...args):args.join('_');
+            if (cache.has(cacheKey)) {
+              return cache.get(cacheKey);
+            }
+            const value = func.apply(this, args);
+            cache.set(cacheKey, value);
+            return value;
           }
-          
-          const result = func.call(this, ...args)
-          if (!cachedResults) {
-            cache.set(key, new Map([[this, result]]))
-          } else {
-            cachedResults.set(this, result)
-          }
-          
-          return result
-        }
       }
 
       ```
