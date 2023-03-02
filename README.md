@@ -19,6 +19,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 12   | [ implement Immutability helper](#implement-immutability-helper)                                                                                                        | 
 | 13   | [ Implement a Queue by using Stack](#implement-a-queue-by-using-stack)                                                                                                        | 
 | 14   | [ Implement a general memoization function memo()](#implement-a-general-memoization-function-memo)                                                                                                        | 
+| 15   | [ implement a simple DOM wrapper to support method chaining like jQuery](#implement-a-simple-dom-wrapper-to-support-method-chaining-like-jquery)                                                                                                        | 
 1. ### implement curry()
       Currying is a useful technique used in JavaScript applications.
 
@@ -774,3 +775,31 @@ As a Front-End developer, JavaScript is the core skill of everything
       }
 
       ```
+15. ###  implement a simple DOM wrapper to support method chaining like jQuery
+     I believe you've used jQuery before, we often chain the jQuery methods together to accomplish our goals.
+
+      For example, below chained call turns button into a black button with white text.
+
+      ```javascript
+      $('#button')
+      .css('color', '#fff')
+      .css('backgroundColor', '#000')
+      .css('fontWeight', 'bold')
+      ```
+      The chaining makes the code simple to read, could you create a simple wrapper $ to make above code work as expected?
+
+      The wrapper only needs to have css(propertyName: string, value: any)
+
+      **solution:**
+      ```javascript
+      function $(el) {
+        
+        return {
+          css: function(property, value){
+            el.style[property] = value
+            return this
+          }
+        }
+      }
+      ```
+      
