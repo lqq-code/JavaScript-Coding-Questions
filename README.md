@@ -20,8 +20,11 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 13   | [ Implement a Queue by using Stack](#implement-a-queue-by-using-stack)                                                                                                        | 
 | 14   | [ Implement a general memoization function memo()](#implement-a-general-memoization-function-memo)                                                                                                        | 
 | 15   | [ implement a simple DOM wrapper to support method chaining like jQuery](#implement-a-simple-dom-wrapper-to-support-method-chaining-like-jquery)                                                                                                        |
-| 16   | [ create an Event Emitter](#create-an-event-emitter)                                                                 
-1. ### implement curry()
+| 16   | [ create an Event Emitter](#create-an-event-emitter)                               
+| 17   | [ Create a simple store for DOM element](#create-a-simple-store-for-dom-element)          
+
+
+1. ###  implement curry()
       Currying is a useful technique used in JavaScript applications.
 
       Please implement a curry() function, which accepts a function and return a curried one.
@@ -51,7 +54,7 @@ As a Front-End developer, JavaScript is the core skill of everything
       }
       ```
       
-2. ### implement curry() with placeholder support
+2. ###  implement curry() with placeholder support
       This is a follow-up on 1. implement curry()
 
       please implement curry() which also supports placeholder.
@@ -92,7 +95,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 
       ```
       
-3. ### implement Array.prototype.flat()
+3. ###  implement Array.prototype.flat()
       There is already Array.prototype.flat() in JavaScript (ES2019), which reduces the nesting of Array.
 
       Could you manage to implement your own one?
@@ -129,7 +132,7 @@ As a Front-End developer, JavaScript is the core skill of everything
         return result.reverse()
       }
       ```
-4. ### implement basic throttle()
+4. ###  implement basic throttle()
      Throttling is a common technique used in Web Application, in most cases using lodash solution would be a good choice.
 
       could you implement your own version of basic throttle()?
@@ -208,7 +211,7 @@ As a Front-End developer, JavaScript is the core skill of everything
       }
 
       ```
-5. ### implement throttle() with leading and trailing option
+5. ###  implement throttle() with leading and trailing option
     This is a follow up on 4. implement basic throttle(), please refer to it for detailed explanation.
 
     In this problem, you are asked to implement a enhanced throttle() which accepts third parameter, option: {leading: boolean, trailing: boolean}
@@ -304,7 +307,7 @@ As a Front-End developer, JavaScript is the core skill of everything
     }
 
       ```
-6. ### implement basic debounce()
+6. ###  implement basic debounce()
      Debounce is a common technique used in Web Application, in most cases using lodash solution would be a good choice.
 
       could you implement your own version of basic debounce()?
@@ -523,7 +526,7 @@ As a Front-End developer, JavaScript is the core skill of everything
         return ans;
       }         
       ```
-10. ### first bad version
+10. ###  first bad version
     Say you have multiple versions of a program, write a program that will find and return the first bad revision given a isBad(version) function.
 
     Versions after first bad version are supposed to be all bad versions.
@@ -838,26 +841,26 @@ As a Front-End developer, JavaScript is the core skill of everything
         subscriptions = new Map()
 
         subscribe(eventName, callback) {
-          if (!this.subscriptions.has(eventName)) {
-            this.subscriptions.set(eventName, new Set())
-          }
-          const subscriptions = this.subscriptions.get(eventName)
-          const callbackObj = { callback }
-          subscriptions.add(callbackObj)
-
-          return {
-            release: () => {
-              subscriptions.delete(callbackObj)
-              if (subscriptions.size === 0) {
-                delete this.subscriptions.eventName
+            if(!(this.subscriptions.has(eventName))){
+              this.subscriptions.set(eventName, new Set())
+            }
+            const subscriptions = this.subscriptions.get(eventName)
+            const callbackObj = { callback }
+            subscriptions.add(callbackObj)
+            
+            return {
+              release: ()=>{
+                subscriptions.delete(callbackObj)
+                if(subscriptions.size === 0 ){
+                  delete this.subscriptions.eventName
+                }
               }
             }
-          }
         }
         
         emit(eventName, ...args) {
           const subscriptions = this.subscriptions.get(eventName)
-          if (subscriptions) {
+          if(subscriptions){
             subscriptions.forEach(cbObj => {
               cbObj.callback.apply(this, args)
             })
@@ -865,3 +868,43 @@ As a Front-End developer, JavaScript is the core skill of everything
         }
       }
       ```
+17. ###  Create a simple store for DOM element
+      We have Map in es6, so we could use any data as key, such as DOM element.
+
+      ```javascript
+      const map = new Map()
+      map.set(domNode, somedata)
+      ```
+      What if we need to support old JavaScript env like es5, how would you create your own Node Store as above?
+
+      You are asked to implement a Node Store, which supports DOM element as key.
+      ```javascript
+      class NodeStore {
+        set(node, value) {
+        }
+        get(node) {
+        }
+        has(node) {
+        }
+      }
+      ```
+
+      **solution:**
+      ```javascript
+      class NodeStore {
+        constructor() {
+          this.nodes = {};
+        }
+        set(node, value) {
+           node.__nodeStoreKey__ = Symbol();
+           this.nodes[node.__nodeStoreKey__] = value;
+        }
+        get(node) {
+          return this.nodes[node.__nodeStoreKey__];
+        }
+        has(node) {
+            return !!this.nodes[node.__nodeStoreKey__];
+        }
+      }
+      ```
+      
