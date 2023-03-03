@@ -19,7 +19,8 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 12   | [ implement Immutability helper](#implement-immutability-helper)                                                                                                        | 
 | 13   | [ Implement a Queue by using Stack](#implement-a-queue-by-using-stack)                                                                                                        | 
 | 14   | [ Implement a general memoization function memo()](#implement-a-general-memoization-function-memo)                                                                                                        | 
-| 15   | [ implement a simple DOM wrapper to support method chaining like jQuery](#implement-a-simple-dom-wrapper-to-support-method-chaining-like-jquery)                                                                                                        | 
+| 15   | [ implement a simple DOM wrapper to support method chaining like jQuery](#implement-a-simple-dom-wrapper-to-support-method-chaining-like-jquery)                                                                                                        |
+| 16   | [ create an Event Emitter](#create-an-event-emitter)                                                                 
 1. ### implement curry()
       Currying is a useful technique used in JavaScript applications.
 
@@ -802,4 +803,65 @@ As a Front-End developer, JavaScript is the core skill of everything
         }
       }
       ```
-      
+16. ###  create an Event Emitter
+    There is Event Emitter in Node.js, Facebook once had its own implementation but now it is archived.
+
+    You are asked to create an Event Emitter Class
+       ```javascript
+      const emitter = new Emitter()
+      ```
+      It should support event subscribing
+       ```javascript
+      const sub1  = emitter.subscribe('event1', callback1)
+      const sub2 = emitter.subscribe('event2', callback2)
+
+      // same callback could subscribe 
+      // on same event multiple times
+      const sub3 = emitter.subscribe('event1', callback1)
+      ```
+      emit(eventName, ...args) is used to trigger the callbacks, with args relayed
+      ```javascript
+      emitter.emit('event1', 1, 2);
+      // callback1 will be called twice
+      ```
+      Subscription returned by subscribe() has a release() method that could be used to unsubscribe
+      ```javascript
+      sub1.release()
+      sub3.release()
+      // now even if we emit 'event1' again, 
+      // callback1 is not called anymore
+      ```
+
+      **solution:**
+      ```javascript
+      class EventEmitter {
+        subscriptions = new Map()
+
+        subscribe(eventName, callback) {
+          if (!this.subscriptions.has(eventName)) {
+            this.subscriptions.set(eventName, new Set())
+          }
+          const subscriptions = this.subscriptions.get(eventName)
+          const callbackObj = { callback }
+          subscriptions.add(callbackObj)
+
+          return {
+            release: () => {
+              subscriptions.delete(callbackObj)
+              if (subscriptions.size === 0) {
+                delete this.subscriptions.eventName
+              }
+            }
+          }
+        }
+        
+        emit(eventName, ...args) {
+          const subscriptions = this.subscriptions.get(eventName)
+          if (subscriptions) {
+            subscriptions.forEach(cbObj => {
+              cbObj.callback.apply(this, args)
+            })
+          }
+        }
+      }
+      ```
