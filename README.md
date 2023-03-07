@@ -22,7 +22,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 15   | [ implement a simple DOM wrapper to support method chaining like jQuery](#implement-a-simple-dom-wrapper-to-support-method-chaining-like-jquery)                                                                                                        |
 | 16   | [ create an Event Emitter](#create-an-event-emitter)                               
 | 17   | [ Create a simple store for DOM element](#create-a-simple-store-for-dom-element)          
-
+| 20   | [ Detect data type in JavaScript](#detect-data-type-in-javascript)                                                                                                        | 
 
 1. ###  implement curry()
       Currying is a useful technique used in JavaScript applications.
@@ -905,6 +905,32 @@ As a Front-End developer, JavaScript is the core skill of everything
         has(node) {
             return !!this.nodes[node.__nodeStoreKey__];
         }
+      }
+      ```
+20. ###  Detect data type in JavaScript
+     This is an easy problem.
+
+      For all the basic data types in JavaScript, how could you write a function to detect the type of arbitrary data?
+
+      Besides basic types, you need to also handle also commonly used complex data type including Array, ArrayBuffer, Map, Set, Date and Function
+
+      The goal is not to list up all the data types but to show us how to solve the problem when we need to.
+
+      The type should be lowercase
+
+      ```javascript
+      detectType(1) // 'number'
+      detectType(new Map()) // 'map'
+      detectType([]) // 'array'
+      detectType(null) // 'null'
+
+      // more in judging step
+      ```
+      **solution:**
+      ```javascript
+      function detectType(data) {
+        if(data instanceof FileReader) return 'object';
+        return Object.prototype.toString.call(data).slice(1, -1).split(' ')[1].toLowerCase();
       }
       ```
       
