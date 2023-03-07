@@ -23,7 +23,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 16   | [ create an Event Emitter](#create-an-event-emitter)                               
 | 17   | [ Create a simple store for DOM element](#create-a-simple-store-for-dom-element)          
 | 20   | [ Detect data type in JavaScript](#detect-data-type-in-javascript)                                                                                                        | 
-
+| 21   | [ implement JSON.stringify()](#implement-jsonstringify)                                                                                                        | 
 1. ###  implement curry()
       Currying is a useful technique used in JavaScript applications.
 
@@ -933,4 +933,75 @@ As a Front-End developer, JavaScript is the core skill of everything
         return Object.prototype.toString.call(data).slice(1, -1).split(' ')[1].toLowerCase();
       }
       ```
+21. ###  implement JSON.stringify()
+      medium  1286 accepted / 11950 tried
+
+      I believe you've used JSON.stringify() before, do you know the details of how it handles arbitrary data?
+
+      Please have a guess on the details and then take a look at the explanation on MDN, it is actually pretty complex.
+
+      In this problem, you are asked to implement your own version of JSON.stringify().
+
+      In a real interview, you are not expected to cover all the cases, just decide the scope with interviewer. But for a goal of practicing, your code here will be tested against a lot of data types. Please try to cover as much as you can.
+
+      note:
+
+      JSON.stringify() support two more parameters which is not required here.
+
+      **solution:**
+      ```javascript
+      function stringify(data) {
+        if(typeof data === 'bigint') {
+          throw new Error('Do not know how to serialize a BigInt at JSON.stringify');
+        } 
+        if(typeof data === 'string') {
+          return `"${data}"`;
+        } 
+        if(typeof data === 'function') {
+          return undefined;
+        }
+        if(data !== data) {
+          return 'null';
+        }
+        if(data === Infinity) {
+          return 'null';
+        }
+        if(data === -Infinity) {
+          return 'null';
+        }
+        if(typeof data === 'number') {
+        return `${data}`;
+        }
+        if(typeof data === 'boolean') {
+          return `${data}`;
+        }
+        if(data === null) {
+          return 'null';
+        }
+        if(data === undefined) {
+          return 'null';
+        }
+        if(typeof data === 'symbol') {
+          return 'null';
+        }
+        if(data instanceof Date) {
+          return `"${data.toISOString()}"`;
+        }
+        if(Array.isArray(data)) {
+          const arr = data.map((el) => stringify(el));
+          return `[${arr.join(',')}]`;
+        }
+        if(typeof data === 'object') {
+          const arr = Object.entries(data).reduce((acc, [key, value]) => {
+            if(value === undefined) {
+              return acc;
+            }
+            acc.push(`"${key}":${stringify(value)}`);
+            return acc;
+          }, [])
+          return `{${arr.join(',')}}`;
+        }
+      }
+      ```
+      
       
