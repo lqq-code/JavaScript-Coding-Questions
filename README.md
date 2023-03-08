@@ -24,6 +24,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 17   | [ Create a simple store for DOM element](#create-a-simple-store-for-dom-element)          
 | 20   | [ Detect data type in JavaScript](#detect-data-type-in-javascript)                                                                                                        | 
 | 21   | [ implement JSON.stringify()](#implement-jsonstringify)                                                                                                        | 
+| 22   | [ implement JSON.parse()](#implement-jsonparse)                                                        
 1. ###  implement curry()
       Currying is a useful technique used in JavaScript applications.
 
@@ -1003,5 +1004,61 @@ As a Front-End developer, JavaScript is the core skill of everything
         }
       }
       ```
-      
+22. ###  implement JSON.parse()
+      This is a follow-up on 21. implement JSON.stringify().
+
+      Believe you are already familiar with JSON.parse(), could you implement your own version?
+
+      In case you are not sure about the spec, MDN here might help.
+
+      JSON.parse() support a second parameter reviver, you can ignore that.
+
+      note:
+
+      JSON.parse() support two more parameters which is not required here.
+
+      **solution:**
+      ```javascript
+      function parse(str) {
+        if(str === '') {
+          throw Error();
+        }
+        if(str[0] === "'") {
+          throw Error();
+        }
+        if(str === 'null') {
+          return null;
+        }
+        if(str === '{}') {
+          return {};
+        }
+        if(str === '[]') {
+          return [];
+        }
+        if(str === 'true') {
+          return true;
+        }
+        if(str === 'false') {
+          return false;
+        }
+        if(str[0] === '"') {
+          return str.slice(1, -1);
+        }
+        if(+str === +str) {
+          return Number(str);
+        }
+        if(str[0] === '{') {
+          return str.slice(1, -1).split(',').reduce((acc, item) => {
+            const index = item.indexOf(':');
+            const key = item.slice(0, index)
+            const value = item.slice(index + 1);
+            acc[parse(key)] = parse(value);
+            return acc;
+          }, {});
+        }
+        if(str[0] === '[') {
+          return str.slice(1, -1).split(',').map((value) => parse(value));
+        }
+      }
+      ```
       
