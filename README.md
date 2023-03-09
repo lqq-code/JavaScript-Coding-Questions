@@ -25,6 +25,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 20   | [ Detect data type in JavaScript](#detect-data-type-in-javascript)                                                                                                        | 
 | 21   | [ implement JSON.stringify()](#implement-jsonstringify)                                                                                                        | 
 | 22   | [ implement JSON.parse()](#implement-jsonparse)                                                        
+| 23   | [ create a sum()](#create-a-sum)                                                        
 1. ###  implement curry()
       Currying is a useful technique used in JavaScript applications.
 
@@ -54,7 +55,6 @@ As a Front-End developer, JavaScript is the core skill of everything
         };
       }
       ```
-      
 2. ###  implement curry() with placeholder support
       This is a follow-up on 1. implement curry()
 
@@ -95,7 +95,6 @@ As a Front-End developer, JavaScript is the core skill of everything
     curry.placeholder = Symbol()
 
       ```
-      
 3. ###  implement Array.prototype.flat()
       There is already Array.prototype.flat() in JavaScript (ES2019), which reduces the nesting of Array.
 
@@ -1060,5 +1059,26 @@ As a Front-End developer, JavaScript is the core skill of everything
           return str.slice(1, -1).split(',').map((value) => parse(value));
         }
       }
+      ```
+23. ###  create a sum()
+      Create a sum(), which makes following possible
+      ```javascript
+      const sum1 = sum(1)
+      sum1(2) == 3 // true
+      sum1(3) == 4 // true
+      sum(1)(2)(3) == 6 // true
+      sum(5)(-1)(2) == 6 // true
+      ```
+      **solution:**
+      ```javascript
+      function sum(num) {
+        const func = function(num2) { // #4
+          return num2 ? sum(num+num2) : num; // #3
+        }
+        
+        func.valueOf = () => num; // #2
+        return func; // #1
+      }
+
       ```
       
