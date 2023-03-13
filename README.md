@@ -23,6 +23,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 16   | [ create an Event Emitter](#create-an-event-emitter)                               
 | 17   | [ Create a simple store for DOM element](#create-a-simple-store-for-dom-element)          
 | 18   | [ Improve a function](#improve-a-function)      
+| 19   | [ find corresponding node in two identical DOM tree](#find-corresponding-node-in-two-identical-dom-tree)      
 | 20   | [ Detect data type in JavaScript](#detect-data-type-in-javascript)                                                                                                        | 
 | 21   | [ implement JSON.stringify()](#implement-jsonstringify)                                                                                                        | 
 | 22   | [ implement JSON.parse()](#implement-jsonparse)                                                        
@@ -950,15 +951,6 @@ As a Front-End developer, JavaScript is the core skill of everything
       **solution:**
       ```javascript
       function excludeItems(items, excludes) {
-        // m k n
-        // n * m
-        
-        // change exclude to Map<key, Set<value>>
-        // m * k * 1
-        
-        // preprocess excludes array
-        // avoid multiple for loop on items
-        
         const excludeMap = new Map()
         for (let {k, v} of excludes) {
           if (!excludeMap.has(k)) {
@@ -972,6 +964,35 @@ As a Front-End developer, JavaScript is the core skill of everything
             key => !excludeMap.has(key) || !excludeMap.get(key).has(item[key])
           )
         })
+      }
+
+      ```
+19. ###  find corresponding node in two identical DOM tree
+      Given two same DOM tree A, B, and an Element a in A, find the corresponding Element b in B.
+
+      By corresponding, we mean a and b have the same relative position to their DOM tree root.
+
+      follow up
+
+      This could a problem on general Tree structure with only children.
+
+      Could you solve it recursively and iteratively?
+
+      Could you solve this problem with special DOM api for better performance?
+
+      What are the time cost for each solution?
+
+      **solution:**
+      ```javascript
+      const findCorrespondingNode = (rootA, rootB, target) => {
+        const stack = [[rootA, rootB]];
+        while(stack.length > 0) {
+          const [leftNode, rightNode] = stack.pop();
+          if (leftNode === target) return rightNode;
+          for (let i = 0; i < leftNode.children.length; i++) {
+            stack.push([leftNode.children[i], rightNode.children[i]]);
+          }
+        }
       }
 
       ```
