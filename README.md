@@ -22,6 +22,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 15   | [ implement a simple DOM wrapper to support method chaining like jQuery](#implement-a-simple-dom-wrapper-to-support-method-chaining-like-jquery)                                                                                                        |
 | 16   | [ create an Event Emitter](#create-an-event-emitter)                               
 | 17   | [ Create a simple store for DOM element](#create-a-simple-store-for-dom-element)          
+| 18   | [ Improve a function](#improve-a-function)      
 | 20   | [ Detect data type in JavaScript](#detect-data-type-in-javascript)                                                                                                        | 
 | 21   | [ implement JSON.stringify()](#implement-jsonstringify)                                                                                                        | 
 | 22   | [ implement JSON.parse()](#implement-jsonparse)                                                        
@@ -908,6 +909,72 @@ As a Front-End developer, JavaScript is the core skill of everything
         }
       }
       ```
+18. ###  Improve a function
+      ```javascript
+        // Given an input of array, 
+        // which is made of items with >= 3 properties
+
+        let items = [
+          {color: 'red', type: 'tv', age: 18}, 
+          {color: 'silver', type: 'phone', age: 20},
+          {color: 'blue', type: 'book', age: 17}
+        ] 
+
+        // an exclude array made of key value pair
+        const excludes = [ 
+          {k: 'color', v: 'silver'}, 
+          {k: 'type', v: 'tv'}, 
+          ...
+        ] 
+
+        function excludeItems(items, excludes) { 
+          excludes.forEach( pair => { 
+            items = items.filter(item => item[pair.k] === item[pair.v])
+          })
+        
+          return items
+        } 
+      ```
+      What does this function excludeItems do?
+
+      Is this function working as expected ?
+
+      What is the time complexity of this function?
+
+      How would you optimize it ?
+
+      note
+
+      we only judge by the result, not the time cost. please submit the best approach you can.
+
+      **solution:**
+      ```javascript
+      function excludeItems(items, excludes) {
+        // m k n
+        // n * m
+        
+        // change exclude to Map<key, Set<value>>
+        // m * k * 1
+        
+        // preprocess excludes array
+        // avoid multiple for loop on items
+        
+        const excludeMap = new Map()
+        for (let {k, v} of excludes) {
+          if (!excludeMap.has(k)) {
+            excludeMap.set(k, new Set())
+          }
+          excludeMap.get(k).add(v)
+        }
+        
+        return items.filter(item => {
+          return Object.keys(item).every(
+            key => !excludeMap.has(key) || !excludeMap.get(key).has(item[key])
+          )
+        })
+      }
+
+      ```
 20. ###  Detect data type in JavaScript
      This is an easy problem.
 
@@ -1190,4 +1257,3 @@ As a Front-End developer, JavaScript is the core skill of everything
       }
 
       ```
-      
