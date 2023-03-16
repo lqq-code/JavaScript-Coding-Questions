@@ -28,7 +28,8 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 21   | [ implement JSON.stringify()](#implement-jsonstringify)                                                                                                        | 
 | 22   | [ implement JSON.parse()](#implement-jsonparse)                                                        
 | 23   | [ create a sum()](#create-a-sum)                                                        
-| 24   | [ create a Priority Queue in JavaScript](#create-a-priority-queue-in-javascript)                                                       
+| 24   | [ create a Priority Queue in JavaScript](#create-a-priority-queue-in-javascript)        
+| 25   | [ Reorder array with new indexes](#reorder-array-with-new-indexes)                                                 
 1. ###  implement curry()
       Currying is a useful technique used in JavaScript applications.
 
@@ -368,7 +369,6 @@ As a Front-End developer, JavaScript is the core skill of everything
         }
       }
       ```
-
 7. ###  implement debounce() with leading and trailing option
      This is a follow up on 6. implement basic debounce(), please refer to it for detailed explanation.
 
@@ -1275,6 +1275,25 @@ As a Front-End developer, JavaScript is the core skill of everything
           let a = this.arr.shift() //removing the first element in arr to return
           return a
         }
+      }
+
+      ```
+25. ###  Reorder array with new indexes
+     Suppose we have an array of items - A, and another array of indexes in numbers - B
+      ```javascript
+      const A = ['A', 'B', 'C', 'D', 'E', 'F']
+      const B = [1,   5,   4,   3,   2,   0]
+      ```
+      You need to reorder A, so that the A[i] is put at index of B[i], which means B is the new index for each item of A.
+
+      For above example A should be modified inline to following
+      ```javascript
+      ['F', 'A', 'E', 'D', 'C', 'B']
+      ```
+      **solution:**
+      ```javascript
+      function sort(items, newOrder) {
+        return items.sort((a, b) => newOrder[items.indexOf(a)] - newOrder[items.indexOf(b)]);
       }
 
       ```
