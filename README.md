@@ -29,7 +29,8 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 22   | [ implement JSON.parse()](#implement-jsonparse)                                                        
 | 23   | [ create a sum()](#create-a-sum)                                                        
 | 24   | [ create a Priority Queue in JavaScript](#create-a-priority-queue-in-javascript)        
-| 25   | [ Reorder array with new indexes](#reorder-array-with-new-indexes)                                                 
+| 25   | [ Reorder array with new indexes](#reorder-array-with-new-indexes)        
+| 26   | [ implement Object.assign()](#implement-objectassign)                                               
 1. ###  implement curry()
       Currying is a useful technique used in JavaScript applications.
 
@@ -1294,6 +1295,40 @@ As a Front-End developer, JavaScript is the core skill of everything
       ```javascript
       function sort(items, newOrder) {
         return items.sort((a, b) => newOrder[items.indexOf(a)] - newOrder[items.indexOf(b)]);
+      }
+
+      ```
+26. ###  implement Object.assign()
+     The Object.assign() method copies all enumerable own properties from one or more source objects to a target object. It returns the target object. (source: MDN)
+
+      It is widely used, Object Spread operator actually is internally the same as Object.assign() (source). Following 2 lines of code are totally the same.
+      ```javascript
+      let aClone = { ...a };
+      let aClone = Object.assign({}, a);
+      ```
+      **solution:**
+      ```javascript
+      function objectAssign(target, ...sources) {
+        if (target === null || target === undefined) {
+          throw new Error('Not an object')  
+        }
+        
+        if (typeof target !== `object`) {
+          target = new target.__proto__.constructor(target)  
+        }
+        
+        for (const source of sources) {
+          if (source === null || source === undefined) {
+            continue
+          }
+          
+          Object.defineProperties(target, Object.getOwnPropertyDescriptors(source))
+          
+          for (const symbol of Object.getOwnPropertySymbols(source)) {
+            target[symbol] = source[symbol]
+          } 
+        }
+        return target
       }
 
       ```
