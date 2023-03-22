@@ -32,7 +32,9 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 25   | [ Reorder array with new indexes](#reorder-array-with-new-indexes)        
 | 26   | [ implement Object.assign()](#implement-objectassign)                                              
 | 27   | [ implement completeAssign()](#implement-completeassign)   
-| 28   | [ implement clearAllTimeout()](#implement-clearalltimeout)   
+| 28   | [ implement clearAllTimeout()](#implement-clearalltimeout) 
+| 29   | [ implement async helper sequence()](#implement-async-helper-sequence)   
+
 1. ###  implement curry()
       Currying is a useful technique used in JavaScript applications.
 
@@ -1436,4 +1438,68 @@ As a Front-End developer, JavaScript is the core skill of everything
         }
       }
 
+      ```
+29. ###  implement async helper sequence()
+      This problem is similar to 11. what is Composition? create a pipe().
+
+      You are asked to implement an async function helper, sequence() which chains up async functions, like what pipe() does.
+
+      All async functions have following interface
+      ```javascript
+      type Callback = (error: Error, data: any) => void
+
+      type AsyncFunc = (
+        callback: Callback,
+        data: any
+      ) => void
+      ```
+      Your sequence() should accept AsyncFunc array, and chain them up by passing new data to the next AsyncFunc through data in Callback.
+
+      Suppose we have an async func which just multiple a number by 2 
+      ```javascript
+        const asyncTimes2 = (callback, num) => {
+          setTimeout(() => callback(null, num * 2), 100)
+        }
+      ```
+      Your sequence() should be able to accomplish this
+       ```javascript
+        const asyncTimes4 = sequence(
+          [
+            asyncTimes2,
+            asyncTimes2
+          ]
+        )
+
+        asyncTimes4((error, data) => {
+          console.log(data) // 4
+        }, 1)
+      ```
+      Once an error occurs, it should trigger the last callback without triggering the uncalled functions.
+
+      **solution:**
+
+      ```javascript
+      function sequence(funcs){
+        const funcsQueue = [...funcs];
+        
+        return function run(finalCB, data) {
+          if (funcsQueue.length === 0) {
+            finalCB(undefined, data);
+            return;
+          }
+          
+          const currF = funcsQueue.shift();
+          
+          const cb = (error, num) => {
+            if (error) {
+              finalCB(error, num);
+              return
+            }
+            
+            run(finalCB, num);
+          };
+          
+          currF(cb, data);
+        };
+      }
       ```
