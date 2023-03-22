@@ -32,6 +32,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 25   | [ Reorder array with new indexes](#reorder-array-with-new-indexes)        
 | 26   | [ implement Object.assign()](#implement-objectassign)                                              
 | 27   | [ implement completeAssign()](#implement-completeassign)   
+| 28   | [ implement clearAllTimeout()](#implement-clearalltimeout)   
 1. ###  implement curry()
       Currying is a useful technique used in JavaScript applications.
 
@@ -1399,6 +1400,40 @@ As a Front-End developer, JavaScript is the core skill of everything
           } 
         }
         return target
+      }
+
+      ```
+28. ###  implement clearAllTimeout()
+      window.setTimeout() could be used to schedule some task in the future.
+
+      Could you implement clearAllTimeout() to clear all the timers ? This might be useful when we want to clear things up before page transition.
+
+      For example
+      ```javascript
+      
+      setTimeout(func1, 10000)
+      setTimeout(func2, 10000)
+      setTimeout(func3, 10000)
+
+      // all 3 functions are scheduled 10 seconds later
+      clearAllTimeout()
+
+      // all scheduled tasks are cancelled.
+      ```
+      
+      note
+
+      You need to keep the interface of window.setTimeout and window.clearTimeout the same, but you could replace them with new logic
+      **solution:**
+
+      ```javascript
+      function clearAllTimeout() {
+        // your code here
+        let id = setTimeout(null, 0);
+        while(id>=0){
+          window.clearTimeout(id);
+          id--;
+        }
       }
 
       ```
