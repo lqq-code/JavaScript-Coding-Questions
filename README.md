@@ -30,7 +30,8 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 23   | [ create a sum()](#create-a-sum)                                                        
 | 24   | [ create a Priority Queue in JavaScript](#create-a-priority-queue-in-javascript)        
 | 25   | [ Reorder array with new indexes](#reorder-array-with-new-indexes)        
-| 26   | [ implement Object.assign()](#implement-objectassign)                                               
+| 26   | [ implement Object.assign()](#implement-objectassign)                                              
+| 27   | [ implement completeAssign()](#implement-completeassign)   
 1. ###  implement curry()
       Currying is a useful technique used in JavaScript applications.
 
@@ -1322,6 +1323,75 @@ As a Front-End developer, JavaScript is the core skill of everything
             continue
           }
           
+          Object.defineProperties(target, Object.getOwnPropertyDescriptors(source))
+          
+          for (const symbol of Object.getOwnPropertySymbols(source)) {
+            target[symbol] = source[symbol]
+          } 
+        }
+        return target
+      }
+
+      ```
+27. ###  implement completeAssign()
+      This is a follow-up on 26. implement Object.assign().
+
+      Object.assign() assigns the enumerable properties, so getters are not copied, non-enumerable properties are ignored.
+
+      Suppose we have following source object.
+
+      It is widely used, Object Spread operator actually is internally the same as Object.assign() (source). Following 2 lines of code are totally the same.
+      ```javascript
+      const source = Object.create(
+        {
+          a: 3 // prototype
+        },
+        {
+          b: {
+            value: 4,
+            enumerable: true // enumerable data descriptor
+          },
+          c: {
+            value: 5, // non-enumerable data descriptor
+          },
+          d: { // non-enumerable accessor descriptor 
+            get: function() {
+              return this._d;
+            },
+            set: function(value) {
+              this._d = value
+            }
+          },
+          e: { // enumerable accessor descriptor 
+            get: function() {
+              return this._e;
+            },
+            set: function(value) {
+              this._e = value
+            },
+            enumerable: true
+          }
+        }
+      )
+      ```
+      If we call Object.assign() with source of above, we get:
+       ```javascript
+      Object.assign({}, source)
+
+      // {b: 4, e: undefined}
+      // e is undefined because `this._e` is undefined
+      ```
+      Rather than above result, could you implement a completeAssign() which have the same parameters as Object.assign() but fully copies the data descriptors and accessor descriptors?
+
+      **solution:**
+
+      ```javascript
+      function completeAssign(target, ...sources) {
+       if (target == null) throw Error('target cannot be null or undefined');
+        target = Object(target);
+        
+        for(let source of sources) {
+          if (source == null) continue;
           Object.defineProperties(target, Object.getOwnPropertyDescriptors(source))
           
           for (const symbol of Object.getOwnPropertySymbols(source)) {
