@@ -35,6 +35,8 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 28   | [ implement clearAllTimeout()](#implement-clearalltimeout) 
 | 29   | [ implement async helper sequence()](#implement-async-helper-sequence)   
 | 30   | [ implement async helper parallel()](#implement-async-helper-parallel)   
+| 31   | [ implement async helper race()](#implement-async-helper-race)   
+
 
 1. ###  implement curry()
       Currying is a useful technique used in JavaScript applications.
@@ -1564,5 +1566,68 @@ As a Front-End developer, JavaScript is the core skill of everything
             .then(outputs => cb(undefined, outputs))
             .catch(err => cb(err, undefined))
         }
+      }
+      ```
+31. ###  implement async helper race()
+      This problem is related to 30. implement async helper - parallel().
+
+      You are asked to implement an async function helper, race() which works like Promise.race(). Different from parallel() that waits for all functions to finish, race() will finish when any function is done or run into error.
+
+      All async functions have following interface
+      ```javascript
+      type Callback = (error: Error, data: any) => void
+
+      type AsyncFunc = (
+        callback: Callback,
+        data: any
+      ) => void
+      ```
+      Your race() should accept AsyncFunc array, and return a new function which triggers its own callback when any async function is done or an error occurs.
+
+      Suppose we have an 3 async functions
+      ```javascript
+      const async1 = (callback) => {
+        setTimeout(() => callback(undefined, 1), 300)
+      }
+
+      const async2 = (callback) => {
+          setTimeout(() => callback(undefined, 2), 100)
+      }
+
+      const async3 = (callback) => {
+        setTimeout(() => callback(undefined, 3), 200)
+      }
+      ```
+      Your parallel() should be able to accomplish this
+       ```javascript
+        const all = parallel(
+          [
+            async1,
+            async2,
+            async3
+          ]
+        )
+
+        all((error, data) => {
+          console.log(data) // [1, 2, 3]
+        }, 1)
+      ```
+      When error occurs, only first error is passed down to the last. Later errors or data are ignored.
+
+      **solution:**
+
+      ```javascript
+      function race(funcs){
+        return function(cb) {
+          let handled = false;
+          funcs.forEach((func) => {
+            func((e, v) => {
+              if (!handled) {
+                handled = true;
+                cb(e, v)
+              }
+            })
+          });
+        };
       }
       ```
