@@ -36,6 +36,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 29   | [ implement async helper sequence()](#implement-async-helper-sequence)   
 | 30   | [ implement async helper parallel()](#implement-async-helper-parallel)   
 | 31   | [ implement async helper race()](#implement-async-helper-race)   
+| 31   | [ implement Promise.all()](#implement-promiseall)   
 
 
 1. ###  implement curry()
@@ -1629,5 +1630,24 @@ As a Front-End developer, JavaScript is the core skill of everything
             })
           });
         };
+      }
+      ```
+32. ###  implement Promise.all()
+      The Promise.all() method takes an iterable of promises as an input, and returns a single Promise that resolves to an array of the results of the input promises
+
+      Could you write your own all() ? which should works the same as Promise.all()
+
+      note
+
+      Do not use Promise.all() directly, it is not helping
+     
+      **solution:**
+      ```javascript
+      async function all(promises) {
+        let result = []
+        for(let promise of promises){
+          result.push(await promise)
+        }
+        return result;
       }
       ```
