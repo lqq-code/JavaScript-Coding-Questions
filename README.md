@@ -39,7 +39,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 32   | [ implement Promise.all()](#implement-promiseall)   
 | 33   | [ implement Promise.allSettled()](#implement-promiseallsettled)   
 | 34  | [ implement Promise.any()](#implement-promiseany)   
-
+| 35  | [ implement Promise.race()](#implement-promiserace)   
 
 1. ###  implement curry()
       Currying is a useful technique used in JavaScript applications.
@@ -1715,6 +1715,21 @@ As a Front-End developer, JavaScript is the core skill of everything
                   ))
               })
           )
+        })
+      }
+      ```
+35. ###  implement Promise.race()
+      The Promise.race() method returns a promise that fulfills or rejects as soon as one of the promises in an iterable fulfills or rejects, with the value or reason from that promise.
+
+      Can you create a race() which works the same as Promise.race()?
+
+      **solution:**
+      ```javascript
+      function race(promises) {
+        return new Promise((resolve, reject)=>{
+          promises.forEach((promise)=>{
+            promise.then(resolve,reject);
+          })
         })
       }
       ```
