@@ -38,6 +38,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 31   | [ implement async helper race()](#implement-async-helper-race)   
 | 32   | [ implement Promise.all()](#implement-promiseall)   
 | 33   | [ implement Promise.allSettled()](#implement-promiseallsettled)   
+| 34  | [ implement Promise.any()](#implement-promiseany)   
 
 
 1. ###  implement curry()
@@ -1678,4 +1679,42 @@ As a Front-End developer, JavaScript is the core skill of everything
             };
           })));
         }
+      ```
+34. ###  implement Promise.any()
+      Promise.any() takes an iterable of Promise objects and, as soon as one of the promises in the iterable fulfils, returns a single promise that resolves with the value from that promise
+
+      Can you implement a any() to work the same as Promise.any()?
+
+      note
+
+      AggregateError is not supported in Chrome yet, but you can still use it in your code since we will add the Class into your code. Do something like following:
+
+      ```javascript
+      new AggregateError(
+        'No Promise in Promise.any was resolved', 
+        errors
+      )
+      ```
+      **solution:**
+      ```javascript
+      function any(promises) {
+        if(!promises.length)
+          throw new AggregateError('No Promise passed')
+        
+        return new Promise((resolve, reject) => {
+          let settledCount = 0, errors = [];
+          promises.forEach((promise, index)=>
+            promise
+              .then(data => resolve(data))
+              .catch(err => {
+                errors[index] = err
+                if(++settledCount === promises.length)
+                  reject(new AggregateError(
+                    'No Promise in Promise.any was resolved',
+                    errors
+                  ))
+              })
+          )
+        })
+      }
       ```
