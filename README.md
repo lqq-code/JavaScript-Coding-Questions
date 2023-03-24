@@ -36,7 +36,8 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 29   | [ implement async helper sequence()](#implement-async-helper-sequence)   
 | 30   | [ implement async helper parallel()](#implement-async-helper-parallel)   
 | 31   | [ implement async helper race()](#implement-async-helper-race)   
-| 31   | [ implement Promise.all()](#implement-promiseall)   
+| 32   | [ implement Promise.all()](#implement-promiseall)   
+| 33   | [ implement Promise.allSettled()](#implement-promiseallsettled)   
 
 
 1. ###  implement curry()
@@ -1650,4 +1651,31 @@ As a Front-End developer, JavaScript is the core skill of everything
         }
         return result;
       }
+      ```
+33. ###  implement Promise.allSettled()
+      The Promise.allSettled() method returns a promise that resolves after all of the given promises have either fulfilled or rejected, with an array of objects that each describes the outcome of each promise.
+
+      Different from Promise.all() which rejects right away once an error occurs, Promise.allSettled() waits for all promises to settle.
+
+      Now can you implement your own allSettled() ?
+
+      note
+
+      Do not use Promise.allSettled() directly, it helps nothing.
+     
+      **solution:**
+      ```javascript
+      function allSettled(promises) {
+          return Promise.all(promises.map(p => Promise.resolve(p).then((value) => {
+            return {
+              status: 'fulfilled',
+              value
+            };
+          }, (reason) => {
+            return {
+              status: 'rejected',
+              reason
+            };
+          })));
+        }
       ```
