@@ -41,6 +41,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 34  | [ implement Promise.any()](#implement-promiseany)   
 | 35  | [ implement Promise.race()](#implement-promiserace)   
 | 36  | [ create a fake timer setTimeout](#create-a-fake-timer-settimeout)  
+| 37  | [ implement Binary Search](#implement-binary-search)  
 
 1. ###  implement curry()
       Currying is a useful technique used in JavaScript applications.
@@ -1832,5 +1833,37 @@ As a Front-End developer, JavaScript is the core skill of everything
             cb(...args);
           }
         }
+      }
+      ```
+37. ###  implement Binary Search
+      Even in Front-End review, basic algorithm technique like Binary Search are likely to be asked.
+
+      You are given an unique & ascending array of integers, please search for its index with Binary Search.
+
+      If not found, return -1
+
+      note
+
+      Please don't use Array.prototype.indexOf(), it is not our goal.
+
+      **solution:**
+      ```javascript
+      function binarySearch(arr, target){
+        let left = 0;
+        let right = arr.length - 1;
+        while (left <= right) {
+          const mid = Math.floor((left + right)) / 2;
+
+          if (arr[mid] === target) {
+            return mid;
+          }
+          if (arr[mid] < target) {
+            right = mid - 1;
+          } else {
+            left = mid + 1;
+          }
+        }
+
+        return -1;
       }
       ```
