@@ -42,6 +42,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 35  | [ implement Promise.race()](#implement-promiserace)   
 | 36  | [ create a fake timer setTimeout](#create-a-fake-timer-settimeout)  
 | 37  | [ implement Binary Search](#implement-binary-search)  
+| 38  | [ implement jest.spyOn()](#implement-jestspyon)  
 
 1. ###  implement curry()
       Currying is a useful technique used in JavaScript applications.
@@ -1865,5 +1866,58 @@ As a Front-End developer, JavaScript is the core skill of everything
         }
 
         return -1;
+      }
+      ```
+38. ###  implement jest.spyOn()
+      If you did unit test before, you must be familiar with Spy.
+
+      You are asked to create a spyOn(object, methodName), which works the same as jest.spyOn().
+
+      To make it simple, here are the 2 requirements of spyOn
+
+      original method should be called when spied one is called
+      spy should have a calls array, which holds all the arguments in each call.
+      Code to explain everything.
+
+      ```javascript
+      const obj = {
+        data: 1, 
+        increment(num) {
+            this.data += num
+        }
+      }
+
+      const spy = spyOn(obj, 'increment')
+
+      obj.increment(1)
+
+      console.log(obj.data) // 2
+
+      obj.increment(2)
+
+      console.log(obj.data) // 4
+
+      console.log(spy.calls)
+      // [ [1], [2] ]
+      ```
+      **solution:**
+      ```javascript
+      function spyOn(obj, methodName) {
+        const calls = []
+
+        const originMethod = obj[methodName]
+        
+        if (typeof originMethod !== 'function') {
+          throw new Error('not function')
+        }
+        
+        obj[methodName] = function(...args) {
+          calls.push(args)
+          return originMethod.apply(this, args)
+        }
+        
+        return {
+          calls
+        }
       }
       ```
