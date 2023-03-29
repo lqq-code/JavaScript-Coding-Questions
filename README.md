@@ -43,7 +43,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 36  | [ create a fake timer setTimeout](#create-a-fake-timer-settimeout)  
 | 37  | [ implement Binary Search](#implement-binary-search)  
 | 38  | [ implement jest.spyOn()](#implement-jestspyon)  
-| 39  | [ implement range()](#implement-range)  
+| 39  | [ implement Bubble Sort](#implement-bubble-sort)  
 
 1. ###  implement curry()
       Currying is a useful technique used in JavaScript applications.
@@ -1942,4 +1942,31 @@ As a Front-End developer, JavaScript is the core skill of everything
           return result
       }
             
+      ```
+40. ###  implement Bubble Sort
+      Even for Front-End Engineer, it is a must to understand how basic sorting algorithms work.
+
+      Now you are asked to implement Bubble Sort, which sorts an integer array in ascending order.
+
+      Do it in-place, no need to return anything.
+
+      Follow-up
+
+      What is time cost for average / worst case ? Is it stable?
+
+      **solution:**
+      ```javascript
+      function bubbleSort(arr) {
+        const len = arr.length;
+
+        for (let i = 0; i < len; i++) {
+          for (let j = 0; j < len; j++) {
+            if (arr[j] > arr[j + 1]){
+              [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+            }
+          }
+        }
+
+        return arr;
+      }
       ```
