@@ -43,6 +43,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 36  | [ create a fake timer setTimeout](#create-a-fake-timer-settimeout)  
 | 37  | [ implement Binary Search](#implement-binary-search)  
 | 38  | [ implement jest.spyOn()](#implement-jestspyon)  
+| 39  | [ implement range()](#implement-range)  
 
 1. ###  implement curry()
       Currying is a useful technique used in JavaScript applications.
@@ -1920,4 +1921,25 @@ As a Front-End developer, JavaScript is the core skill of everything
           calls
         }
       }
+      ```
+39. ###  implement range()
+      Can you create a range(from, to) which makes following work?
+      ```javascript
+      for (let num of range(1, 4)) {
+        console.log(num)  
+      }
+      // 1
+      // 2
+      // 3
+      // 4
+      ```
+      **solution:**
+      ```javascript
+      function range(from, to) {
+          let result = []
+          while(from <= to)
+            result.push(from++)
+          return result
+      }
+            
       ```
