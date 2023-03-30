@@ -46,6 +46,8 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 39  | [ implement range()](#implement-range)  
 | 40  | [ implement Bubble Sort](#implement-bubble-sort)  
 | 41  | [ implement Merge Sort](#implement-merge-sort)  
+| 42  | [ implement Insertion  Sort](#implement-insertion-sort)  
+
 
 
 1. ###  implement curry()
@@ -2001,4 +2003,30 @@ As a Front-End developer, JavaScript is the core skill of everything
             arr[l + r] = right[r++];
         }
       }
+      ```
+42. ###  implement Insertion  Sort
+      Even for Front-End Engineer, it is a must to understand how basic sorting algorithms work.
+
+      Now you are asked to implement Insertion Sort, which sorts an integer array in ascending order.
+
+      Do it in-place, no need to return anything.
+
+      Follow-up
+
+      What is time cost for average / worst case ? Is it stable?
+
+      **solution:**
+      ```javascript
+      function insertionSort(arr) {
+        for(let i = 1; i < arr.length; i++) {
+          for(let j = 0; j < i; j++) {
+            const insert = arr[i];
+            const curr = arr[j];
+            if(curr > insert) {
+              [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+          }
+        }
+      }
+
       ```
