@@ -43,7 +43,10 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 36  | [ create a fake timer setTimeout](#create-a-fake-timer-settimeout)  
 | 37  | [ implement Binary Search](#implement-binary-search)  
 | 38  | [ implement jest.spyOn()](#implement-jestspyon)  
-| 39  | [ implement Bubble Sort](#implement-bubble-sort)  
+| 39  | [ implement range()](#implement-range)  
+| 40  | [ implement Bubble Sort](#implement-bubble-sort)  
+| 41  | [ implement Merge Sort](#implement-merge-sort)  
+
 
 1. ###  implement curry()
       Currying is a useful technique used in JavaScript applications.
@@ -1968,5 +1971,34 @@ As a Front-End developer, JavaScript is the core skill of everything
         }
 
         return arr;
+      }
+      ```
+41. ###  implement Merge Sort
+      Even for Front-End Engineer, it is a must to understand how basic sorting algorithms work.
+
+      Now you are asked to implement Merge Sort, which sorts an integer array in ascending order.
+
+      Do it in-place, no need to return anything.
+
+      Follow-up
+
+      What is time cost for average / worst case ? Is it stable?
+
+      **solution:**
+      ```javascript
+      function mergeSort(arr) {
+        if (arr.length < 2) return;
+        let mid = Math.floor(arr.length/2);
+        let left = arr.slice(0, mid);
+        let right = arr.slice(mid);
+        mergeSort(left);
+        mergeSort(right);
+        let l = 0, r = 0;
+        while (l < left.length || r < right.length) {
+          if (r == right.length || (l < left.length && left[l] <= right[r]))
+            arr[l + r] = left[l++];
+          else
+            arr[l + r] = right[r++];
+        }
       }
       ```
