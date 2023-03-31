@@ -46,8 +46,8 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 39  | [ implement range()](#implement-range)  
 | 40  | [ implement Bubble Sort](#implement-bubble-sort)  
 | 41  | [ implement Merge Sort](#implement-merge-sort)  
-| 42  | [ implement Insertion  Sort](#implement-insertion-sort)  
-
+| 42  | [ implement Insertion Sort](#implement-insertion-sort)  
+| 43  | [ implement Quick Sort](#implement-insertion-sort)  
 
 
 1. ###  implement curry()
@@ -2004,7 +2004,7 @@ As a Front-End developer, JavaScript is the core skill of everything
         }
       }
       ```
-42. ###  implement Insertion  Sort
+42. ###  implement Insertion Sort
       Even for Front-End Engineer, it is a must to understand how basic sorting algorithms work.
 
       Now you are asked to implement Insertion Sort, which sorts an integer array in ascending order.
@@ -2029,4 +2029,38 @@ As a Front-End developer, JavaScript is the core skill of everything
         }
       }
 
+      ```
+43. ###  implement Quick Sort
+      Even for Front-End Engineer, it is a must to understand how basic sorting algorithms work.
+
+      Now you are asked to implement Quick Sort, which sorts an integer array in ascending order.
+
+      Do it in-place, no need to return anything.
+
+      Follow-up
+
+      What is time cost for average / worst case ? Is it stable?
+
+      **solution:**
+      ```javascript
+      function quickSort(arr, l=0, r=arr.length-1) {
+        if (l>r) return;
+        const pIndex=partition(arr,l,r);
+        quickSort(arr,l,pIndex-1);
+        quickSort(arr,pIndex+1,r);
+      }
+
+      function partition(arr,l,r) {
+        const pivot=l++;
+        while (l<=r) {
+          if (arr[l]<=arr[pivot])
+            l++;
+          else {
+            [arr[l], arr[r]]=[arr[r], arr[l]];
+            r--;
+          }
+        }
+        [arr[pivot], arr[r]]=[arr[r], arr[pivot]];
+        return r;
+      }
       ```
