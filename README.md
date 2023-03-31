@@ -47,8 +47,8 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 40  | [ implement Bubble Sort](#implement-bubble-sort)  
 | 41  | [ implement Merge Sort](#implement-merge-sort)  
 | 42  | [ implement Insertion Sort](#implement-insertion-sort)  
-| 43  | [ implement Quick Sort](#implement-insertion-sort)  
-
+| 43  | [ implement Quick Sort](#implement-quick-sort)  
+| 44  | [ implement Selection Sort](#implement-selection-sort)  
 
 1. ###  implement curry()
       Currying is a useful technique used in JavaScript applications.
@@ -2064,3 +2064,29 @@ As a Front-End developer, JavaScript is the core skill of everything
         return r;
       }
       ```
+44. ###  implement Selection Sort
+      Even for Front-End Engineer, it is a must to understand how basic sorting algorithms work.
+
+      Now you are asked to implement Selection sort, which sorts an integer array in ascending order.
+
+      Do it in-place, no need to return anything.
+
+      Follow-up
+
+      What is time cost for average / worst case ? Is it stable?
+
+      **solution:**
+      ```javascript
+      function selectionSort(arr) {
+        for (let i = 0; i < arr.length; i++) {
+          let min = i;
+          for (let j = i; j < arr.length; j++) {
+            if (arr[j] < arr[min]) {
+              min = j;
+            }
+          }
+          [arr[i], arr[min]] = [arr[min], arr[i]];
+        }
+      }
+      ```
+
