@@ -49,6 +49,8 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 42  | [ implement Insertion Sort](#implement-insertion-sort)  
 | 43  | [ implement Quick Sort](#implement-quick-sort)  
 | 44  | [ implement Selection Sort](#implement-selection-sort)  
+| 45  | [ find the K-th largest element in an unsorted array](#find-the-k-th-largest-element-in-an-unsorted-array)  
+
 
 1. ###  implement curry()
       Currying is a useful technique used in JavaScript applications.
@@ -2089,4 +2091,19 @@ As a Front-End developer, JavaScript is the core skill of everything
         }
       }
       ```
+45. ###  find the K-th largest element in an unsorted array
+      You are given an unsorted array of numbers, which might have duplicates, find the K-th largest element.
+
+      The naive approach would be sort it first, but it costs O(nlogn), could you find a better approach?
+
+      Maybe you can recall what is happening in Quick Sort or Priority Queue
+      **solution:**
+      ```javascript
+      function findKThLargest(arr, k) {
+        // your code here
+        arr = arr.sort((a,b)=>{return a-b})
+        return arr[arr.length-k]
+      }
+      ```
+
 
