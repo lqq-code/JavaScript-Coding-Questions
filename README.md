@@ -50,7 +50,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 43  | [ implement Quick Sort](#implement-quick-sort)  
 | 44  | [ implement Selection Sort](#implement-selection-sort)  
 | 45  | [ find the K-th largest element in an unsorted array](#find-the-k-th-largest-element-in-an-unsorted-array)  
-
+| 46  | [ implement _.once()](#implement-_once)  
 
 1. ###  implement curry()
       Currying is a useful technique used in JavaScript applications.
@@ -2105,5 +2105,35 @@ As a Front-End developer, JavaScript is the core skill of everything
         return arr[arr.length-k]
       }
       ```
+46. ###  implement `_.once()`
+      _.once(func) is used to force a function to be called only once, later calls only returns the result of first call.
+
+      Can you implement your own once()?
+       ```javascript
+      function func(num) {
+        return num
+      }
+      const onced = once(func)
+      onced(1) 
+      // 1, func called with 1
+      onced(2)
+      // 1, even 2 is passed, previous result is returned 
+      ```
+
+      **solution:**
+      ```javascript
+      function once(func) {
+        let result= null;
+        let isCalled = false;
+        return function(...args){
+          if(!isCalled){
+            result = func.call(this, ...args);
+            isCalled = true;
+          }
+          return result;
+        }
+      }
+      ```
+
 
 
