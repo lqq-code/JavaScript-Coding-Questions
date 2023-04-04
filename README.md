@@ -52,6 +52,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 45  | [ find the K-th largest element in an unsorted array](#find-the-k-th-largest-element-in-an-unsorted-array)  
 | 46  | [ implement _.once()](#implement-_once)  
 | 47  | [ reverse a linked list](#reverse-a-linked-list)  
+| 48  | [ search first index with Binary Search](#search-first-index-with-binary-search)  
 
 1. ###  implement curry()
       Currying is a useful technique used in JavaScript applications.
@@ -2168,11 +2169,27 @@ As a Front-End developer, JavaScript is the core skill of everything
         return prev;
       }
       ```
+48. ###  search first index with Binary Search
+      This is a variation of 37. implement Binary Search (unique).
 
+      Your are given a sorted ascending array of number, but might have duplicates, you are asked to return the first index of a target number.
 
+      If not found return -1.
+      **solution:**
+      ```javascript
+      function firstIndex(arr, target){
+        // your code here
+        let start = 0, end = arr.length - 1;
+        while(start <= end) {
+          const mid = start + Math.floor((end - start) / 2);
 
+          if(arr[mid] === target) {
+            if(arr[mid - 1] !== target) return mid;
+            end = mid - 1;
+          }else if(arr[mid] < target) start = mid + 1;
+          else end = mid - 1;
+        }
 
-
-
-
-
+        return -1;
+      }
+      ```
