@@ -51,6 +51,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 44  | [ implement Selection Sort](#implement-selection-sort)  
 | 45  | [ find the K-th largest element in an unsorted array](#find-the-k-th-largest-element-in-an-unsorted-array)  
 | 46  | [ implement _.once()](#implement-_once)  
+| 47  | [ reverse a linked list](#reverse-a-linked-list)  
 
 1. ###  implement curry()
       Currying is a useful technique used in JavaScript applications.
@@ -2134,6 +2135,44 @@ As a Front-End developer, JavaScript is the core skill of everything
         }
       }
       ```
+47. ###  reverse a linked list
+      Another basic algorithm even for Front End developers.
+
+      You are asked to reverse a linked list.
+
+      Suppose we have Node interface like this
+       ```javascript
+      class Node {
+        new(val: number, next: Node);
+        val: number
+        next: Node
+      }
+      ```
+      We can then chain nodes together to create a linked list.
+       ```javascript
+      const Three = new Node(3, null)
+      const Two = new Node(2, Three)
+      const One = new Node(1, Two)
+
+      //now we have  a linked list
+      // 1 → 2 → 3
+      ```
+      Now how can you reverse it to 3 → 2 → 1 ? you can modify the next property of each node, but not the val.
+      **solution:**
+      ```javascript
+      const reverseLinkedList = (list) => {
+        let node = list, prev = null;
+        while (node !== null) {
+          [node.next, node, prev] = [prev, node.next, node];
+        }
+        return prev;
+      }
+      ```
+
+
+
+
+
 
 
 
