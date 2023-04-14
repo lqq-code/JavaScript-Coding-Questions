@@ -53,6 +53,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 46  | [ implement _.once()](#implement-_once)  
 | 47  | [ reverse a linked list](#reverse-a-linked-list)  
 | 48  | [ search first index with Binary Search](#search-first-index-with-binary-search)  
+| 49  | [ search last index with Binary Search](#search-last-index-with-binary-search)  
 
 1. ###  implement curry()
       Currying is a useful technique used in JavaScript applications.
@@ -2191,5 +2192,26 @@ As a Front-End developer, JavaScript is the core skill of everything
         }
 
         return -1;
+      }
+      ```
+49. ###  search last index with Binary Search
+      This is a variation of 37. implement Binary Search (unique).
+
+      Your are given a sorted ascending array of number, but might have duplicates, you are asked to return the last index of a target number.
+
+      If not found return -1.
+      **solution:**
+      ```javascript
+      function lastIndex(arr, target){
+        let left = 0, right = arr.length - 1
+        while(left < right){
+          const mid = (left + right +1) >> 1
+          if(arr[mid] <= target){
+            left = mid
+          }else{
+            right = mid - 1
+          }
+        }
+        return arr[left] === target? left : -1
       }
       ```
