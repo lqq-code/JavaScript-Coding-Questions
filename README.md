@@ -55,7 +55,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 48  | [ search first index with Binary Search](#search-first-index-with-binary-search)  
 | 49  | [ search last index with Binary Search](#search-last-index-with-binary-search)  
 | 50  | [ search element right before target with Binary Search](#search-element-right-before-target-with-binary-search)  
-
+| 51  | [ search element right after target with Binary Search](#search-element-right-after-target-with-binary-search)  
 
 1. ###  implement curry()
       Currying is a useful technique used in JavaScript applications.
@@ -2236,6 +2236,27 @@ As a Front-End developer, JavaScript is the core skill of everything
           }else if(arr[mid] < target) start = mid + 1;
           else end = mid - 1;
         }
+      }
+      ```
+51. ###  search element right after target with Binary Search
+      This is a variation of 37. implement Binary Search (unique).
+
+      Your are given a sorted ascending array of number, but might have duplicates, you are asked to return the element right after last appearance of a target number.
+
+      If not found return undefined.
+      **solution:**
+      ```javascript
+      function elementAfter(arr, target){
+        // your code here
+        let start = 0, end = arr.length - 1;
+        while(start < end){
+          const mid = start + Math.ceil((end - start) / 2);
+          if(arr[mid] <= target){
+            start = mid
+          } 
+          else end = mid - 1;
+        }
+        return arr[start] ===target? arr[start+1] : undefined
       }
       ```
 
