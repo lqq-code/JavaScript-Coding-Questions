@@ -56,6 +56,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 49  | [ search last index with Binary Search](#search-last-index-with-binary-search)  
 | 50  | [ search element right before target with Binary Search](#search-element-right-before-target-with-binary-search)  
 | 51  | [ search element right after target with Binary Search](#search-element-right-after-target-with-binary-search)  
+| 52  | [ create a middleware system](#create-a-middleware-system) 
 
 1. ###  implement curry()
       Currying is a useful technique used in JavaScript applications.
@@ -2257,6 +2258,56 @@ As a Front-End developer, JavaScript is the core skill of everything
           else end = mid - 1;
         }
         return arr[start] ===target? arr[start+1] : undefined
+      }
+      ```
+51. ###  create a middleware system
+      Have you ever used Express Middleware before?
+
+      Middleware functions are functions with fixed interface that could be chained up like following two functions.
+      **solution:**
+      ```javascript
+      class Middleware {
+        /**
+        * @param {MiddlewareFunc} func
+        */
+        constructor() {
+          this.callbacks = [];
+          this.errHandlers = [];
+        }
+
+        use(func) {
+          if(func.length === 2) {
+            this.callbacks.push(func);
+          }
+          if(func.length === 3) {
+            this.errHandlers.push(func);
+          }
+        }
+
+        /**
+        * @param {Request} req
+        */
+        start(req) {
+          let idx = 0;
+          let errIdx = 0;
+          let self = this;
+          function next(nextError) {
+            let args = [req, next];
+            let func;
+            if (nextError) {
+              func = self.errHandlers[errIdx++];
+              args.unshift(nextError);
+            } else {
+              func = self.callbacks[idx++];
+            }
+            try {
+              func && func(...args);
+            } catch(error) {
+              next(error);
+            }
+          }
+          next();
+        }
       }
       ```
 
