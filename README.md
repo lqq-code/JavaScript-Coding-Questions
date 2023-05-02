@@ -57,6 +57,7 @@ As a Front-End developer, JavaScript is the core skill of everything
 | 50  | [ search element right before target with Binary Search](#search-element-right-before-target-with-binary-search)  
 | 51  | [ search element right after target with Binary Search](#search-element-right-after-target-with-binary-search)  
 | 52  | [ create a middleware system](#create-a-middleware-system) 
+| 53  | [ write your own extends in es5](#write-your-own-extends-in-es5) 
 
 1. ###  implement curry()
       Currying is a useful technique used in JavaScript applications.
@@ -2260,7 +2261,7 @@ As a Front-End developer, JavaScript is the core skill of everything
         return arr[start] ===target? arr[start+1] : undefined
       }
       ```
-51. ###  create a middleware system
+52. ###  create a middleware system
       Have you ever used Express Middleware before?
 
       Middleware functions are functions with fixed interface that could be chained up like following two functions.
@@ -2308,6 +2309,62 @@ As a Front-End developer, JavaScript is the core skill of everything
           }
           next();
         }
+      }
+      ```
+53. ###  write your own extends in es5
+      I believe you've used extends keyword in you JavaScript programs before.
+
+      Could you implement a myExtends() function in ES5 to mimic the behavior of extends?
+
+      myExtends() takes a SubType and SuperType, and return a new type.
+
+      ```javascript
+      const InheritedSubType = myExtends(SuperType, SubType)
+
+      const instance = new InheritedSubType()
+
+      // above should work (almost) the same as follows
+
+      class SubType extends SuperType {}
+      const instance = new SubType()
+      ```
+      To solve this problem, you need to fully understand what is Inheritance
+
+      Your code will be test against following SuperType and SubType
+       ```javascript
+      function SuperType(name) {
+          this.name = name
+          this.forSuper = [1, 2]
+          this.from = 'super'
+      }
+      SuperType.prototype.superMethod = function() {}
+      SuperType.prototype.method = function() {}
+      SuperType.staticSuper = 'staticSuper'
+
+      function SubType(name) {
+          this.name = name
+          this.forSub = [3, 4]
+          this.from = 'sub'
+      }
+
+      SubType.prototype.subMethod = function() {}
+      SubType.prototype.method = function() {}
+      SubType.staticSub = 'staticSub'
+      ```
+      **solution:**
+      ```javascript
+      const myExtends = (SuperType, SubType) => {
+          function ExtendedType(...args) {
+            SuperType.call(this, ...args);
+            SubType.call(this, ...args);
+            Object.setPrototypeOf(this, SubType.prototype);
+          }
+        
+          Object.setPrototypeOf(SubType.prototype, SuperType.prototype);
+          Object.setPrototypeOf(ExtendedType.prototype, SubType.prototype);
+          Object.setPrototypeOf(ExtendedType, SuperType);
+        
+        return ExtendedType;
       }
       ```
 
